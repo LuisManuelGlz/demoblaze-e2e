@@ -13,7 +13,7 @@ const SELECTORS = {
 };
 
 async function login(page, username, password) {
-  await page.locator(SELECTORS.loginLink).click();
+  await page.click(SELECTORS.loginLink);
   await page.fill(SELECTORS.usernameInput, username);
   await page.fill(SELECTORS.passwordInput, password);
   await page.click(SELECTORS.loginButton);
@@ -26,8 +26,7 @@ test('Text "Welcome @Username" should appear after successful login', async ({
 
   await login(page, USERNAME, PASSWORD);
 
-  const loginLink = page.locator("#login2");
-  await loginLink.click();
+  await page.click("#login2");
 
   const userElement = page.locator(SELECTORS.userGreeting);
   await expect(userElement).toBeVisible();
