@@ -19,16 +19,37 @@ async function login(page, username, password) {
   await page.click(SELECTORS.loginButton);
 }
 
-test('Text "Welcome @Username" should appear after successful login', async ({
-  page,
-}) => {
-  await page.goto(BASE_URL);
+test.describe("TP-1: Login", () => {
+  test('TC-2: Text "Welcome @Username" should appear after successful login', async ({
+    page,
+  }) => {
+    await page.goto(BASE_URL);
 
-  await login(page, USERNAME, PASSWORD);
+    await login(page, USERNAME, PASSWORD);
 
-  await page.click("#login2");
+    await page.click("#login2");
 
-  const userElement = page.locator(SELECTORS.userGreeting);
-  await expect(userElement).toBeVisible();
-  await expect(userElement).toHaveText(new RegExp(`Welcome ${USERNAME}`));
+    const userElement = page.locator(SELECTORS.userGreeting);
+    await expect(userElement).toBeVisible();
+    await expect(userElement).toHaveText(new RegExp(`Welcome ${USERNAME}`));
+  });
+
+  test("TC-3: Warning message is displayed after a failed login", async ({
+    page,
+  }) => {
+    await page.goto(BASE_URL);
+
+    await login(page, USERNAME, "4321");
+
+    page.on("dialog", async (dialog) => {
+      dialog.dismiss();
+    });
+
+    await page.getByRole("button", { name: "Log in" }).click();
+
+    await page.getByLabel("Log in").getByText("Close").click();
+
+    await expect(page.getByRole("link", { name: "Log in" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Sign up" })).toBeVisible();
+  });
 });
