@@ -8,6 +8,8 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      BASE_URL: "https://www.demoblaze.com"
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -20,7 +22,7 @@ jobs:
     - name: Run Playwright tests
       run: pnpm exec playwright test
       env:
-        BASE_URL: "https://www.demoblaze.com"
+        BASE_URL: ${{ env.BASE_URL }}
     - uses: actions/upload-artifact@v4
       if: always()
       with:
