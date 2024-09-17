@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 // Test Data
 const USERNAME = "luismanuel";
 const PASSWORD = "1234";
-const BASE_URL = "https://www.demoblaze.com";
+const BASE_URL = process.env.BASE_URL; // "https://www.demoblaze.com";
 const SELECTORS = {
   loginLink: "#login2",
   usernameInput: "#loginusername",
