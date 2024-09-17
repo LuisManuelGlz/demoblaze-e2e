@@ -20,6 +20,7 @@ jobs:
     - name: Set environment variables
       env:
         BASE_URL: "https://www.demoblaze.com"
+      run: echo $BASE_URL
     - name: Run Playwright tests
       run: pnpm exec playwright test
       env:
